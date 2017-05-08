@@ -15,15 +15,17 @@ Window::Window(const std::string title, int width, int height)
 		std::cerr << "Failed to create GLFW window!" << std::endl;
 		glfwTerminate();
 	}
-	else {
-		glfwMakeContextCurrent(m_window);
-	}
+	
+	glfwMakeContextCurrent(m_window);
 
-	glewExperimental = GL_TRUE;
+	GLenum status = glewInit();
 
-	if (glewInit == GLEW_OK) {
+	if (status != GLEW_OK) {
 		std::cerr << "Failed to initialize GLEW" << std::endl;
 		glfwTerminate();
+	}
+	else {
+		std::cout << "GLEW initialized" << std::endl;
 	}
 
 	glfwGetFramebufferSize(m_window, &m_width, &m_height);

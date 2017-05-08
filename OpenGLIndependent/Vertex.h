@@ -5,7 +5,7 @@
 class Vertex
 {
 public:
-	Vertex(const glm::vec3& pos, const glm::vec2& texture_coord);
+	Vertex(const glm::vec3& pos);
 
 	void setPos(glm::vec3 pos);
 	void setTexCoord(glm::vec2 coord);

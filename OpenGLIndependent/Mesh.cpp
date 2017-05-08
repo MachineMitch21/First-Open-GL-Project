@@ -1,49 +1,39 @@
 #include "Mesh.h"
-
-
-Mesh::Mesh(Vertex* vertices, unsigned int numVertices)
+#include <iostream>
+Mesh::Mesh(Vertex* vertices, unsigned int num_verts)
 {
-	m_drawCount = numVertices;
+	m_drawCount = num_verts;
 
-	glGenVertexArrays(1, &m_vertexArrayObject);
-	glBindVertexArray(m_vertexArrayObject);
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
 
 	std::vector<glm::vec3> vert_positions;
-	std::vector<glm::vec2> t_coords;
 
-	vert_positions.reserve(numVertices);
-	t_coords.reserve(numVertices);
+	vert_positions.reserve(m_drawCount);
 
-	for (unsigned int i = 0; i < numVertices; i++) {
+	for (unsigned int i = 0; i < m_drawCount; i++) {
 		vert_positions.push_back(vertices[i].getPos());
-		t_coords.push_back(vertices[i].getTexCoord());
+		std::cout << vertices[i].getPos().x << ", " << vertices[i].getPos().y << ", " << vertices[i].getPos().z << std::endl;
 	}
 
-	glGenBuffers(NUM_BUFFERS, m_vertexArrayBuffers);
+	glGenBuffers(NUM_BUFFERS, &m_vbo);
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[POSITION_VB]);
-	glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(vert_positions[0]), &vert_positions[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glBufferData(GL_ARRAY_BUFFER, num_verts * sizeof(vert_positions[0]), &vert_positions[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
+	
 	glBindVertexArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexArrayBuffers[TEXCOORD_VB]);
-	glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(t_coords[0]), &t_coords[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glBindVertexArray(1);
 }
 
 void Mesh::draw() {
-	glBindVertexArray(m_vertexArrayObject);
-
-	glDrawArrays(GL_TRIANGLE, 0, m_drawCount);
+	glBindVertexArray(m_vao);
+	glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
 	glBindVertexArray(0);
 }
 
 Mesh::~Mesh()
 {
-	glDeleteVertexArrays(1, &m_vertexArrayObject);
+	glDeleteVertexArrays(1, &m_vao);
+	glDeleteBuffers(1, &m_vbo);
 }

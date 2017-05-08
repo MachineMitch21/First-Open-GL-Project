@@ -11,13 +11,13 @@
 class Shader
 {
 public:
-	Shader(std::vector<std::string> files, std::vector<GLenum> types);
+	Shader(std::string* files, GLenum* types);
 	~Shader();
 
 	void bind();
 
 private:
-	GLuint create_program();
+	void link_program();
 	GLuint compile_shader(const std::string& shader_src, GLenum shader_type);
 	std::string load_shader(const std::string& filename);
 

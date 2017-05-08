@@ -1,29 +1,29 @@
 #include "Shader.h"
 
-Shader::Shader(std::vector<std::string> files, std::vector<GLenum> types)
+Shader::Shader(std::string* files, GLenum* types)
 {
-	if (!(files.size() > MAX_SHADERS)) {
-		for (int i = 0; i < files.size(); i++) {
-			m_shaders[i] = compile_shader(load_shader(files.at(i)), types.at(i));
-		}
-	}
-	else {
-		std::cerr << "ERROR: --Only 2 shader types allowed--" << std::endl;
+	m_program = glCreateProgram();
+
+	for (int i = 0; i < MAX_SHADERS; i++) {
+		m_shaders[i] = compile_shader(load_shader(files[i]), types[i]);
 	}
 
+	link_program();
 }
 
 void Shader::bind() {
 	glUseProgram(m_program);
 }
 
-GLuint Shader::create_program() {
-	m_program = glCreateProgram();
+void Shader::link_program() {
 
 	//Attach shaders to newly create program and then link everything
 	for (int i = 0; i < MAX_SHADERS; i++) {
 		glAttachShader(m_program, m_shaders[i]);
 	}
+
+	glBindAttribLocation(m_program, 0, "position");
+
 	glLinkProgram(m_program);
 
 	glGetProgramiv(m_program, GL_LINK_STATUS, &success);
@@ -32,18 +32,20 @@ GLuint Shader::create_program() {
 		glGetProgramInfoLog(m_program, ERR_LOG, NULL, err_log);
 		std::cout << "ERROR linking shader program:: " << m_program << " ::\n" << err_log << std::endl;
 	}
-
-	return m_program;
 }
 
 GLuint Shader::compile_shader(const std::string& shader_src, GLenum shader_type) {
 	GLuint shader;
 	//We have to convert to a type that OpenGL understands
-	const GLchar* const* src = (const GLchar* const*)shader_src.c_str();
-	
+	const GLchar* src[1];
+	GLint src_length[1];
+
+	src[0] = shader_src.c_str();
+	src_length[0] = shader_src.length();
+
 	//Create the shader and compile it
 	shader = glCreateShader(shader_type);
-	glShaderSource(shader, 1, src, NULL);
+	glShaderSource(shader, 1, src, src_length);
 	glCompileShader(shader);
 
 	//Check for compilation errors
@@ -66,6 +68,7 @@ std::string Shader::load_shader(const std::string& filename){
 	if (shader_file.is_open()) {
 		while (std::getline(shader_file, line)) {
 			shader_src += line;
+			shader_src.append("\n");
 		}
 		shader_file.close();
 	}

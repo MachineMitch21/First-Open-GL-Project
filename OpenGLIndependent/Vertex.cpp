@@ -2,10 +2,9 @@
 
 
 
-Vertex::Vertex(const glm::vec3& pos, const glm::vec2& texture_coord)
+Vertex::Vertex(const glm::vec3& pos)
 {
 	setPos(pos);
-	setTexCoord(texture_coord);
 }
 
 void Vertex::setPos(glm::vec3 pos) {

@@ -3,28 +3,33 @@
 
 #include "stdafx.h"
 #include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "Window.h"
+#include "Vertex.h"
+#include "Mesh.h"
+#include "Shader.h"
 
 int main()
 {
-	GLuint vbo;
-
-	GLfloat vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f
-	};
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
 	Window window("OpenGL", 800, 600);
+
+	Vertex vertices[] = {	Vertex(glm::vec3(0.5f, 0.5f, 0.0f)),
+							Vertex(glm::vec3(0.5, -0.5f, 0.0f)),
+							Vertex(glm::vec3(-0.5f,	 0.5f, 0.0f)),
+							Vertex(glm::vec3(0.5f, -0.5f, 0.0f)),
+							Vertex(glm::vec3(-0.5, -0.5f, 0.0f)),
+							Vertex(glm::vec3(-0.5f, 0.5f, 0.0f)) };
+		
+		std::string files[] = { "res\\shader.fs", "res\\shader.vs" };
+	GLenum types[] = { GL_FRAGMENT_SHADER, GL_VERTEX_SHADER };
+
+	Shader shader(files, types);
+	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
 
 	while (!window.IsClosed()) {
 		window.clear(0.0f, 0.0f, 0.15f, .8f);
+
+		shader.bind();
+		mesh.draw();
 
 		window.update();
 	}

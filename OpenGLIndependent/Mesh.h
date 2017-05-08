@@ -6,7 +6,7 @@
 class Mesh
 {
 public:
-	Mesh(Vertex* vertices, unsigned int numVertices);
+	Mesh(Vertex* vertices, unsigned int num_verts);
 	~Mesh();
 
 	void draw();
@@ -14,11 +14,10 @@ public:
 private:
 	enum {
 		POSITION_VB,
-		TEXCOORD_VB,
 		NUM_BUFFERS
 	};
-	GLuint m_vertexArrayObject;
-	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
+	GLuint m_vao;
+	GLuint m_vbo;
 	unsigned int m_drawCount;
 };
 
