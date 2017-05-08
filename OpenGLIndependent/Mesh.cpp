@@ -28,8 +28,17 @@ Mesh::Mesh(Vertex* vertices, unsigned int num_verts)
 
 void Mesh::draw() {
 	glBindVertexArray(m_vao);
+	glPolygonMode(GL_FRONT_AND_BACK, DRAW_MODE);
 	glDrawArrays(GL_TRIANGLES, 0, m_drawCount);
 	glBindVertexArray(0);
+}
+
+void Mesh::setDrawMode(GLenum mode) {
+	DRAW_MODE = mode;
+}
+
+GLenum Mesh::getDrawMode() {
+	return DRAW_MODE;
 }
 
 Mesh::~Mesh()

@@ -10,6 +10,8 @@ public:
 	~Mesh();
 
 	void draw();
+	void setDrawMode(GLenum mode);
+	GLenum getDrawMode();
 
 private:
 	enum {
@@ -18,6 +20,8 @@ private:
 	};
 	GLuint m_vao;
 	GLuint m_vbo;
+	GLuint m_ebo;
+	GLenum DRAW_MODE = GL_FILL;
 	unsigned int m_drawCount;
 };
 
