@@ -1,5 +1,5 @@
 #include "Shader.h"
-
+#include <GLFW\glfw3.h>
 Shader::Shader(std::string* files, GLenum* types)
 {
 	m_program = glCreateProgram();
@@ -12,7 +12,11 @@ Shader::Shader(std::string* files, GLenum* types)
 }
 
 void Shader::bind() {
+	GLfloat timeValue = glfwGetTime();
+	GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
+	GLint vertexColorLocation = glGetUniformLocation(m_program, "ourColor");
 	glUseProgram(m_program);
+	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 }
 
 void Shader::link_program() {

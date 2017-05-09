@@ -1,12 +1,23 @@
 #include "Window.h"
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+bool Window::m_keys[MAX_KEYS];
+bool Window::m_buttons[MAX_MOUSE_BUTTONS];
+double Window::mx;
+double Window::my;
 
 Window::Window(const std::string title, int width, int height)
 {
 	m_title = title;
 	m_width = width;
 	m_height = height;
+
+	for (int i = 0; i < MAX_KEYS; i++) {
+		m_keys[i] = false;
+	}
+
+	for (int i = 0; i < MAX_MOUSE_BUTTONS; i++) {
+		m_buttons[i] = false;
+	}
 
 	init_glfw();
 	m_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
@@ -32,10 +43,27 @@ Window::Window(const std::string title, int width, int height)
 	glViewport(0, 0, m_width, m_height);
 
 	glfwSetKeyCallback(m_window, key_callback);
+
+	glfwSetWindowUserPointer(m_window, this);
 }
 
 bool Window::IsClosed() {
 	return glfwWindowShouldClose(m_window);
+}
+
+bool Window::isKeyPressed(unsigned int keycode) {
+
+	if (keycode >= MAX_KEYS) {
+		return false;
+	}
+	return m_keys[keycode];
+}
+
+bool Window::isMouseButtonPressed(unsigned int button) {
+	if (button >= MAX_MOUSE_BUTTONS) {
+		return false;
+	}
+	return m_buttons[button];
 }
 
 void Window::update() {
@@ -65,6 +93,6 @@ void Window::init_glfw() {
 //Callback functions
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(glfwGetCurrentContext(), GL_TRUE);
+	Window* win = (Window*)glfwGetWindowUserPointer(window);
+	win->m_keys[key] = (action != GLFW_RELEASE);
 }
