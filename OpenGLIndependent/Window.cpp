@@ -19,32 +19,9 @@ Window::Window(const std::string title, int width, int height)
 		m_buttons[i] = false;
 	}
 
-	init_glfw();
-	m_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-
-	if (m_window == nullptr) {
-		std::cerr << "Failed to create GLFW window!" << std::endl;
+	if (!init())
 		glfwTerminate();
-	}
-	
-	glfwMakeContextCurrent(m_window);
 
-	GLenum status = glewInit();
-
-	if (status != GLEW_OK) {
-		std::cerr << "Failed to initialize GLEW" << std::endl;
-		glfwTerminate();
-	}
-	else {
-		std::cout << "GLEW initialized" << std::endl;
-	}
-
-	glfwGetFramebufferSize(m_window, &m_width, &m_height);
-	glViewport(0, 0, m_width, m_height);
-
-	glfwSetKeyCallback(m_window, key_callback);
-
-	glfwSetWindowUserPointer(m_window, this);
 }
 
 bool Window::IsClosed() {
@@ -81,13 +58,38 @@ Window::~Window()
 	glfwTerminate();
 }
 
-void Window::init_glfw() {
+bool Window::init() {
+	bool isInitialized = true;
+	GLenum status;
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+
+	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
+
+	if (m_window == nullptr) {
+		std::cerr << "Failed to create GLFW window!" << std::endl;
+		isInitialized = false;
+	}
+
+	glfwMakeContextCurrent(m_window);
+	glViewport(0, 0, m_width, m_height);
+
+	status = glewInit();
+
+	if (status != GLEW_OK) {
+		std::cerr << "Failed to initialize GLEW" << std::endl;
+		isInitialized = false;
+	}
+
+	glfwGetFramebufferSize(m_window, &m_width, &m_height);
+	glfwSetKeyCallback(m_window, key_callback);
+	glfwSetWindowUserPointer(m_window, this);
+	
+	return isInitialized;
 }
 
 //Callback functions

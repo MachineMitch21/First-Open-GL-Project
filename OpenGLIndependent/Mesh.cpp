@@ -13,7 +13,6 @@ Mesh::Mesh(Vertex* vertices, unsigned int num_verts)
 
 	for (unsigned int i = 0; i < m_drawCount; i++) {
 		vert_positions.push_back(vertices[i].getPos());
-		std::cout << vertices[i].getPos().x << ", " << vertices[i].getPos().y << ", " << vertices[i].getPos().z << std::endl;
 	}
 
 	glGenBuffers(NUM_BUFFERS, &m_vbo);

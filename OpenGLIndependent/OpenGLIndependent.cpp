@@ -30,10 +30,9 @@ int main()
 	Shader shader(files, types);
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
 
+	//Get the max vertex attributes available to use
 	GLint nrAttrs;	
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttrs);
-
-	std::cout << "Maximum number of vertex attributes supported: " << nrAttrs << std::endl;
 
 	while (!window.IsClosed()) {
 		window.clear(0.0f, 0.0f, 0.15f, .8f);
