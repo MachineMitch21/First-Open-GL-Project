@@ -22,6 +22,8 @@ Window::Window(const std::string title, int width, int height)
 	if (!init())
 		glfwTerminate();
 
+	glewExperimental = GL_TRUE;
+
 }
 
 bool Window::IsClosed() {

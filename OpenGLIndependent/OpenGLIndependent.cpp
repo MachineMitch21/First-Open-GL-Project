@@ -7,18 +7,25 @@
 #include "Vertex.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include "Texture.h"
 
 int main()
 {
 	Window window("Antisocial Engine", 800, 600);
 
-	GLfloat vert1[6] = { 0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 0.0f };
-	GLfloat vert2[6] = {-0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 0.0f };
-	GLfloat vert3[6] = { 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f };
+	GLfloat vert1[] = {  0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f };
+	GLfloat vert2[] = {  0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f };
+	GLfloat vert3[] = { -0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f };
+	GLfloat vert4[] = { -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f };
+	GLfloat vert5[] = {  0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f };
+	GLfloat vert6[] = { -0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f };
 
-	Vertex vertices[] = { Vertex(vert1, 6),
-							Vertex(vert2, 6),
-							Vertex(vert3, 6) };
+	Vertex vertices[] = {	Vertex(vert1, 8),
+							Vertex(vert2, 8),
+							Vertex(vert3, 8),
+							Vertex(vert4, 8),
+							Vertex(vert5, 8),
+							Vertex(vert6, 8)	};
 
 
 	GLuint indices[] = {
@@ -32,6 +39,7 @@ int main()
 	Shader shader(files, types);
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+	Texture texture("res\\bricks.jpg");
 
 	//Get the max vertex attributes available to use
 	GLint nrAttrs;	
