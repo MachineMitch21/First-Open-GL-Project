@@ -6,7 +6,7 @@
 class Mesh
 {
 public:
-	Mesh(Vertex* vertices, /*GLuint* indices,*/ unsigned int num_verts /*unsigned int num_indices*/);
+	Mesh(Vertex* vertices, unsigned int num_verts);
 	~Mesh();
 
 	void draw();
@@ -21,9 +21,10 @@ private:
 	GLuint m_vao;
 	GLuint m_vbo;
 	GLuint m_ebo;
-	GLenum DRAW_MODE = GL_LINE;
+	GLenum DRAW_MODE = GL_FILL;
 	std::vector<Vertex> m_vertices;
 	std::vector<GLuint> m_indices;
 	unsigned int m_drawCount;
+	unsigned int m_vertexSize;
 };
 

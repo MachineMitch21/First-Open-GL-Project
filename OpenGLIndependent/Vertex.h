@@ -1,20 +1,31 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include <GL\glew.h>
+#include <glm\glm.hpp>
 
 class Vertex
 {
 public:
-	Vertex(const glm::vec3& pos);
+	Vertex(GLfloat* vertex_data, unsigned int element_count);
 
-	void setPos(glm::vec3 pos);
-	void setTexCoord(glm::vec2 coord);
-	glm::vec3 getPos();
-	glm::vec2 getTexCoord();
+	void setPos(GLfloat pos[3]);
+	void setColor(GLfloat color[3]);
+	void setTexture(GLfloat texture[2]);
+
+	GLfloat* getPos();
+	GLfloat* getColor();
+	GLfloat* getTexture();
+
+	GLfloat* getData();
+
+	unsigned int getElemCount();
 	~Vertex();
 
 private:
-	glm::vec3 v_pos;
-	glm::vec2 t_coord;
+	GLfloat* m_vertexData;
+	glm::vec3 m_pos;
+	glm::vec3 m_color;
+	glm::vec2 m_texture;
+	unsigned int m_elemCount;
 };
 

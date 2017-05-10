@@ -2,25 +2,18 @@
 
 
 
-Vertex::Vertex(const glm::vec3& pos)
+Vertex::Vertex(GLfloat* vertex_data, unsigned int element_count)
 {
-	setPos(pos);
+	m_vertexData = vertex_data;
+	m_elemCount = element_count;
 }
 
-void Vertex::setPos(glm::vec3 pos) {
-	v_pos = pos;
+GLfloat* Vertex::getData() {
+	return m_vertexData;
 }
 
-void Vertex::setTexCoord(glm::vec2 coord) {
-	t_coord = coord;
-}
-
-glm::vec3 Vertex::getPos() {
-	return v_pos;
-}
-
-glm::vec2 Vertex::getTexCoord() {
-	return t_coord;
+unsigned int Vertex::getElemCount() {
+	return m_elemCount;
 }
 
 Vertex::~Vertex()

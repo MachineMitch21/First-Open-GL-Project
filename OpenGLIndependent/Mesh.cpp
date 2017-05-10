@@ -7,21 +7,29 @@ Mesh::Mesh(Vertex* vertices, unsigned int num_verts)
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
-	std::vector<glm::vec3> vert_positions;
-
-	vert_positions.reserve(m_drawCount);
+	std::vector<glm::vec3> vert_data;
+	vert_data.reserve(m_drawCount * 2);
 
 	for (unsigned int i = 0; i < m_drawCount; i++) {
-		vert_positions.push_back(vertices[i].getPos());
+		vert_data.push_back(glm::vec3(vertices[i].getData()[0], vertices[i].getData()[1], vertices[i].getData()[2]));
+		vert_data.push_back(glm::vec3(vertices[i].getData()[3], vertices[i].getData()[4], vertices[i].getData()[5]));
 	}
 
 	glGenBuffers(NUM_BUFFERS, &m_vbo);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, num_verts * sizeof(vert_positions[0]), &vert_positions[0], GL_STATIC_DRAW);
+
+	//Tell OpenGL what data we will be using
+	glBufferData(GL_ARRAY_BUFFER, (num_verts * 2) * sizeof(vert_data[0]), &vert_data[0], GL_STATIC_DRAW);
+
+	//Tell OpenGL where our position data is
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(vert_data[0]), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	
+
+	//Tell OpenGL where our color data is
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(vert_data[0]), (GLvoid*)(sizeof(vert_data[0])));
+	glEnableVertexAttribArray(1);
+
 	glBindVertexArray(0);
 }
 
