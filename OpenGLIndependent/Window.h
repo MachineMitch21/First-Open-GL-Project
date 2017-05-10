@@ -17,6 +17,8 @@ public:
 	bool IsClosed();
 	void update();
 	void clear(float r, float g, float b, float a);
+	double getX();
+	double getY();
 	
 	bool isKeyPressed(unsigned int keycode);
 	bool isMouseButtonPressed(unsigned int button);
@@ -25,6 +27,8 @@ private:
 	bool init();
 	friend void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 	friend void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+	friend void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+	friend void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 	
 private:
 	GLFWwindow* m_window;

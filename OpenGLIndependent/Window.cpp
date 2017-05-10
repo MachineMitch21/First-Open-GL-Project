@@ -43,6 +43,14 @@ bool Window::isMouseButtonPressed(unsigned int button) {
 	return m_buttons[button];
 }
 
+double Window::getX() {
+	return mx;
+}
+
+double Window::getY() {
+	return my;
+}
+
 void Window::update() {
 	glfwPollEvents();
 	glfwSwapBuffers(m_window);
@@ -86,8 +94,12 @@ bool Window::init() {
 	}
 
 	glfwGetFramebufferSize(m_window, &m_width, &m_height);
-	glfwSetKeyCallback(m_window, key_callback);
 	glfwSetWindowUserPointer(m_window, this);
+
+	glfwSetKeyCallback(m_window, key_callback);
+	glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(m_window, cursor_position_callback);
+	glfwSetMouseButtonCallback(m_window, mouse_button_callback);
 	
 	return isInitialized;
 }
@@ -98,3 +110,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	Window* win = (Window*)glfwGetWindowUserPointer(window);
 	win->m_keys[key] = (action != GLFW_RELEASE);
 }
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+	Window* win = (Window*)glfwGetWindowUserPointer(window);
+	win->m_width = width;
+	win->m_height = height;
+	glViewport(0, 0, width, height);
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
+	Window* win = (Window*)glfwGetWindowUserPointer(window);
+	win->mx = xpos;
+	win->my = ypos;
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+	Window* win = (Window*)glfwGetWindowUserPointer(window);
+	win->m_buttons[button] = (action != GLFW_RELEASE);
+}
+

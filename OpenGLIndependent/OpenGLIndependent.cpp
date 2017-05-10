@@ -10,7 +10,7 @@
 
 int main()
 {
-	Window window("OpenGL", 800, 600);
+	Window window("Antisocial Engine", 800, 600);
 
 	GLfloat vert1[6] = { 0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 0.0f };
 	GLfloat vert2[6] = {-0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 0.0f };
@@ -46,6 +46,10 @@ int main()
 
 		if (window.isKeyPressed(GLFW_KEY_S) && window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
 			mesh.setDrawMode(GL_FILL);
+		}
+
+		if (window.isMouseButtonPressed(GLFW_MOUSE_BUTTON_1)) {
+			std::cout << "Mouse pressed at: " << window.getX() << ", " << window.getY() << std::endl;
 		}
 
 		shader.bind();
