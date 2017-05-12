@@ -18,9 +18,12 @@ public:
 	void clear(float r, float g, float b, float a);
 	double getX();
 	double getY();
+	int getWidth();
+	int getHeight();
 	
 	bool isKeyPressed(unsigned int keycode);
 	bool isMouseButtonPressed(unsigned int button);
+	void close();
 
 private:
 	bool init();

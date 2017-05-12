@@ -69,8 +69,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Debug\res\shader.vs" />
-    <None Include="..\Debug\res\shader.fs" />
-  </ItemGroup>
 </Project>

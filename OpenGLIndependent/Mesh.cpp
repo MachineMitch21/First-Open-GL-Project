@@ -47,13 +47,13 @@ Mesh::Mesh(Vertex* vertices, unsigned int num_verts)
 
 	glBufferData(GL_ARRAY_BUFFER, (num_verts * 8) * sizeof(vert_data[0]), &vert_data[0], GL_STATIC_DRAW);
 
-	// Position attribute
+	// Tell OpenGL where to find our position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
-	// Color attribute
+	// Tell OpenGL where to find our color attribute
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
-	// TexCoord attribute
+	// Tell OpenGL where to find our texture coordinates
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(2);
 

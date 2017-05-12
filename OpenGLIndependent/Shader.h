@@ -15,6 +15,7 @@ public:
 	~Shader();
 
 	void bind();
+	GLuint& getProgram();
 
 private:
 	void link_program();

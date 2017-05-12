@@ -12,11 +12,16 @@ Shader::Shader(std::string* files, GLenum* types)
 }
 
 void Shader::bind() {
-	GLfloat timeValue = glfwGetTime();
-	GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
-	GLint vertexColorLocation = glGetUniformLocation(m_program, "ourColor");
+	//GLfloat timeValue = glfwGetTime();
+	//GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
+	//GLint vertexColorLocation = glGetUniformLocation(m_program, "ourColor");
+	glActiveTexture(GL_TEXTURE0);
 	glUseProgram(m_program);
-	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+	//glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+}
+
+GLuint& Shader::getProgram() {
+	return m_program;
 }
 
 void Shader::link_program() {

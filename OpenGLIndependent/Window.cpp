@@ -45,12 +45,24 @@ bool Window::isMouseButtonPressed(unsigned int button) {
 	return m_buttons[button];
 }
 
+void Window::close() {
+	glfwSetWindowShouldClose(m_window, GL_TRUE);
+}
+
 double Window::getX() {
 	return mx;
 }
 
 double Window::getY() {
 	return my;
+}
+
+int Window::getWidth() {
+	return m_width;
+}
+
+int Window::getHeight() {
+	return m_height;
 }
 
 void Window::update() {
@@ -60,7 +72,7 @@ void Window::update() {
 
 void Window::clear(float r, float g, float b, float a) {
 	glClearColor(r, g, b, a);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 Window::~Window()
