@@ -10,10 +10,10 @@
 class Mesh
 {
 public:
-	Mesh(Vertex* vertices, unsigned int num_verts);
+	Mesh(GLfloat* vert_data, unsigned int num_verts, unsigned int elem_perVert);
 	~Mesh();
 
-	void draw();
+	void draw(glm::vec3 translation, GLuint shader);
 	void setDrawMode(GLenum mode);
 	GLenum getDrawMode();
 
@@ -27,6 +27,7 @@ private:
 	GLuint m_ebo;
 	GLenum DRAW_MODE = GL_FILL;
 	std::vector<Vertex> m_vertices;
+	std::vector<GLfloat> data;
 	std::vector<GLuint> m_indices;
 	unsigned int m_drawCount;
 	unsigned int m_vertexSize;

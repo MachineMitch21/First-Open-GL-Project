@@ -50,7 +50,56 @@ int main()
 		GLfloat vert35[] = {-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,  };
 		GLfloat vert36[] = {-0.5f, 0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f	};
 
-		Vertex vertices[] = {	Vertex(vert1 , 8),
+		GLfloat vertices[] = { -0.5f,-0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+								0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+								0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+								-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+								-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+								-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+								0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+								0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+								-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+								-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+								-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+								-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+								-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+								-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+								-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+								0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+								0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+								0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+								0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+								0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+								0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+								-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+								-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+								0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+								0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+								-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+								-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f	};
+
+
+
+		glm::vec3 cubePositions[] = {
+			glm::vec3(1.0f, -0.25f, 0.0f),
+			glm::vec3(2.0f, 5.0f, -15.0f),
+			glm::vec3(-1.5f, -2.2f, -2.5f),
+			glm::vec3(-2.5f, 1.0f, -5.5f),
+			glm::vec3(0.0f, 0.0f, -5.0f)
+		};
+
+
+
+		/*Vertex vertices[] = {	Vertex(vert1 , 8),
 								Vertex(vert2 , 8),
 								Vertex(vert3 , 8),
 								Vertex(vert4 , 8),
@@ -85,7 +134,7 @@ int main()
 								Vertex(vert33, 8),
 								Vertex(vert34, 8),
 								Vertex(vert35, 8),
-								Vertex(vert36, 8) };
+								Vertex(vert36, 8) };*/
 		
 		
 		
@@ -101,7 +150,19 @@ int main()
 
 	Shader shader(files, types);
 
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+	Mesh cube1(vertices, 36, 8);
+	Mesh cube2(vertices, 36, 8);
+	Mesh cube3(vertices, 36, 8);
+	Mesh cube4(vertices, 36, 8);
+	Mesh cube5(vertices, 36, 8);
+
+	std::vector<Mesh> meshes;
+	meshes.push_back(cube1);
+	meshes.push_back(cube2);
+	meshes.push_back(cube3);
+	meshes.push_back(cube4);
+	meshes.push_back(cube5);
+
 	Texture texture("res\\bricks.jpg");
 
 	//Get the max vertex attributes available to use
@@ -114,11 +175,13 @@ int main()
 		window.clear(0.2f, 0.3f, 0.3f, 1.0f);
 
 		if (window.isKeyPressed(GLFW_KEY_W) && window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-			mesh.setDrawMode(GL_LINE);
+			for(int i = 0; i < meshes.size(); i++)
+				meshes[i].setDrawMode(GL_LINE);
 		}
 
 		if (window.isKeyPressed(GLFW_KEY_S) && window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-			mesh.setDrawMode(GL_FILL);
+			for (int i = 0; i < meshes.size(); i++)
+				meshes[i].setDrawMode(GL_FILL);
 		}
 
 		if (window.isMouseButtonPressed(GLFW_MOUSE_BUTTON_1)) {
@@ -143,10 +206,10 @@ int main()
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));*/
 
 		// Create transformations
-		glm::mat4 model;
+		
 		glm::mat4 view;
 		glm::mat4 projection;
-		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		
 		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 		projection = glm::perspective(45.0f, (GLfloat)window.getWidth() / (GLfloat)window.getHeight(), 0.1f, 100.0f);
 		// Get their uniform location
@@ -154,12 +217,14 @@ int main()
 		GLint viewLoc = glGetUniformLocation( shader.getProgram(), "view");
 		GLint projLoc = glGetUniformLocation( shader.getProgram(), "projection");
 		// Pass them to the shaders
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		// Note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-		mesh.draw();
+		for (GLuint i = 0; i < meshes.size(); i++) {
+			meshes[i].draw(cubePositions[i], shader.getProgram());
+		}
 
 		window.update();
 	}
