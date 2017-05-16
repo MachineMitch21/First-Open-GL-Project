@@ -8,10 +8,20 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Camera.h"
+
+GLfloat deltaTime = 0.0f;
+GLfloat lastFrame = 0.0f;
 
 int main()
 {
 	Window window("Antisocial Engine", 800, 600);
+
+	Camera camera(&window);
+
+	window.setActiveCamera(&camera);
+
+	//window.setActiveCamera(&camera);
 
 	GLfloat vertices[] = { -0.5f,-0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 							0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
@@ -59,7 +69,14 @@ int main()
 		glm::vec3(-2.5f, 1.0f, -5.5f),
 		glm::vec3(0.0f, 0.0f, -5.0f),
 		glm::vec3(-1.0f, 1.5f, 0.0f),
-		glm::vec3(-3.0f, 1.5f, -12.5f)
+		glm::vec3(-3.0f, 1.5f, -12.5f),
+		glm::vec3(-1.0f, -0.25f, 0.0f),
+		glm::vec3(2.0f, -5.0f, -15.0f),
+		glm::vec3(-1.5f, 2.2f, 2.5f),
+		glm::vec3(-2.5f, 1.0f, -5.5f),
+		glm::vec3(0.0f, 0.0f, 5.0f),
+		glm::vec3(-1.0f, 1.5f, 0.0f),
+		glm::vec3(3.0f, 1.5f, 12.5f)
 	};
 		
 	GLuint indices[] = {
@@ -93,14 +110,20 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 
+
+
 	while (!window.IsClosed()) {
 		window.clear(0.2f, 0.3f, 0.3f, 1.0f);
+
+		GLfloat currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
 
 		if (window.isKeyPressed(GLFW_KEY_M)) {
 			meshes.push_back(new Mesh(vertices, 36, 8));
 		}
 
-		if (window.isKeyPressed(GLFW_KEY_D)) {
+		if (window.isKeyPressed(GLFW_KEY_N)) {
 			if(meshes.size() > 0)
 				meshes.pop_back();
 		}
@@ -119,30 +142,41 @@ int main()
 			std::cout << "Mouse pressed at: " << window.getX() << ", " << window.getY() << std::endl;
 		}
 
+		if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL) && window.isKeyPressed(GLFW_KEY_LEFT_SHIFT) && window.isKeyPressed(GLFW_KEY_C)) {
+			if (!window.isCursorActive())
+				window.setCursor(window.SHOW);
+		}else if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL) && window.isKeyPressed(GLFW_KEY_LEFT_ALT) && window.isKeyPressed(GLFW_KEY_C)) {
+			if (window.isCursorActive())
+				window.setCursor(window.DISABLE);
+		}
+
+
 		if (window.isKeyPressed(GLFW_KEY_ESCAPE)) {
 			window.close();
 		}
 
+		
+
 		shader.bind();
 		
-		glm::mat4 view;
-		glm::mat4 projection;
-		
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		projection = glm::perspective(45.0f, (GLfloat)window.getWidth() / (GLfloat)window.getHeight(), 0.1f, 100.0f);
+
 		// Get their uniform location
 		GLint modelLoc = glGetUniformLocation(shader.getProgram(), "model");
-		GLint viewLoc = glGetUniformLocation( shader.getProgram(), "view");
-		GLint projLoc = glGetUniformLocation( shader.getProgram(), "projection");
+		
+		
 		// Pass them to the shaders
 		
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		// Note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		
 
 		for (GLuint i = 0; i < meshes.size(); i++) {
 			meshes[i]->draw(cubePositions[i], shader.getProgram());
 		}
+
+		camera.setSpeed(5.0f * deltaTime);
+
+		if(!window.isCursorActive())
+			camera.move(shader.getProgram(), (GLfloat)window.getX(), (GLfloat)window.getY());
 
 		window.update();
 	}

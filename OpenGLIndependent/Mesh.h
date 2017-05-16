@@ -31,5 +31,11 @@ private:
 	std::vector<GLuint> m_indices;
 	unsigned int m_drawCount;
 	unsigned int m_vertexSize;
+	unsigned int m_elemPerVert;
+
+private:
+	void usePositionData(GLuint index, GLint size);
+	void useColorData(GLuint index, GLint size);
+	void useTextureData(GLuint index, GLint size);
 };
 

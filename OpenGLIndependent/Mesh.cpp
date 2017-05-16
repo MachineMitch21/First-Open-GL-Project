@@ -3,17 +3,9 @@
 Mesh::Mesh(GLfloat* vert_data, unsigned int num_verts, unsigned int elem_PerVert)
 {
 	m_drawCount = num_verts;
+	m_elemPerVert = elem_PerVert;
 
-	glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
-
-	//std::vector<GLfloat> vert_data;
 	m_vertices.reserve(m_drawCount);
-
-	/*for (unsigned int i = 0; i < m_drawCount; i++) {
-		vert_data.push_back(glm::vec3(vertices[i].getData()[0], vertices[i].getData()[1], vertices[i].getData()[2]));
-		vert_data.push_back(glm::vec3(vertices[i].getData()[3], vertices[i].getData()[4], vertices[i].getData()[5]));
-	}*/
 
 	for (unsigned int i = 0; i < m_drawCount; i+=elem_PerVert) {
 		GLfloat temp_data[] = { vert_data[i], vert_data[i], vert_data[i], vert_data[i], vert_data[i], vert_data[i], vert_data[i], vert_data[i] };
@@ -22,39 +14,50 @@ Mesh::Mesh(GLfloat* vert_data, unsigned int num_verts, unsigned int elem_PerVert
 		data.push_back(vert_data[i]);
 	}
 
+	//Prepare our vertex array
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+
+	//Prepare our vertex buffer object
 	glGenBuffers(NUM_BUFFERS, &m_vbo);
-
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glBufferData(GL_ARRAY_BUFFER, (m_drawCount * m_elemPerVert) * sizeof(vert_data[0]), &vert_data[0], GL_STATIC_DRAW);
 
-	//Tell OpenGL what data we will be using
-	/*glBufferData(GL_ARRAY_BUFFER, (num_verts * 2) * sizeof(vert_data[0]), &vert_data[0], GL_STATIC_DRAW);
+	GLuint index = 0;
+	bool zeroIsSet = false;
 
-	//Tell OpenGL where our position data is
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(vert_data[0]), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
+	if (elem_PerVert >= 3) {
+		(index == 0 ? index = index, zeroIsSet = true : index++);
+		usePositionData(index, 3);
+	}
 
-	//Tell OpenGL where our color data is
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(vert_data[0]), (GLvoid*)(sizeof(vert_data[0])));
-	glEnableVertexAttribArray(1);
+	if (elem_PerVert >= 6) {
+		index++;
+		useColorData(index, 3);
+	}
 
-	//Tell OpenGL where our texture coords are
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(vert_data[0]), (GLvoid*)(2 * sizeof(vert_data[0])));
-	glEnableVertexAttribArray(2);*/
+	if (elem_PerVert >= 8 || elem_PerVert >= 5) {
+		index++;
+		useTextureData(index, 2);
+	}
+}
 
-	glBufferData(GL_ARRAY_BUFFER, (num_verts * 8) * sizeof(vert_data[0]), &vert_data[0], GL_STATIC_DRAW);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vert_data), vert_data, GL_STATIC_DRAW);
-
+void Mesh::usePositionData(GLuint index, GLint size) {
 	// Tell OpenGL where to find our position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-	// Tell OpenGL where to find our color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-	// Tell OpenGL where to find our texture coordinates
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, m_elemPerVert * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(index);
+}
 
-	//glBindVertexArray(0);
+void Mesh::useColorData(GLuint index, GLint size) {
+	// Tell OpenGL where to find our color attribute
+	glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, m_elemPerVert * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(index);
+}
+
+void Mesh::useTextureData(GLuint index, GLint size) {
+	// Tell OpenGL where to find our texture coordinates
+	glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, m_elemPerVert * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(index);
 }
 
 void Mesh::draw(glm::vec3 translation, GLuint shader) {

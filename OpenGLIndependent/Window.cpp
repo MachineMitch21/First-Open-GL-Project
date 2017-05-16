@@ -65,6 +65,26 @@ int Window::getHeight() {
 	return m_height;
 }
 
+void Window::setCursor(CURSOR_MODE mode) {
+	if (mode == DISABLE) {
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		cursorActive = false;
+	}
+
+	else if (mode == SHOW) {
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		cursorActive = true;
+	}
+}
+
+bool Window::isCursorActive() {
+	return cursorActive;
+}
+
+void Window::setActiveCamera(Camera* camera) {
+	m_activeCamera = camera;
+}
+
 void Window::update() {
 	glfwPollEvents();
 	glfwSwapBuffers(m_window);
@@ -114,6 +134,7 @@ bool Window::init() {
 	glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(m_window, cursor_position_callback);
 	glfwSetMouseButtonCallback(m_window, mouse_button_callback);
+	glfwSetScrollCallback(m_window, scroll_callback);
 	
 	return isInitialized;
 }
@@ -141,5 +162,27 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
 	Window* win = (Window*)glfwGetWindowUserPointer(window);
 	win->m_buttons[button] = (action != GLFW_RELEASE);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
+	Window* win = (Window*)glfwGetWindowUserPointer(window);
+	Camera* activeCam = win->m_activeCamera;
+
+	GLfloat fov = activeCam->getFOV();
+
+	std::cout << fov << std::endl;
+	std::cout << yoffset << std::endl;
+
+	if (fov >= 1.0f || fov <= 45.0f) {
+		 activeCam->setFov(fov - yoffset);
+	}
+
+	if (fov <= 1.0f) {
+		activeCam->setFov(1.0f);
+	}
+	if (fov >= 45.0f) {
+		activeCam->setFov(45.0f);
+	}
+	
 }
 
